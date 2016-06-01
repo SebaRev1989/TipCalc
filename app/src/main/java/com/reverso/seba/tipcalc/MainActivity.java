@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.IntegerRes;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.btnSubmit)
-    public void handleClickSubmit(){
+    public void handleClickSubmit() {
         hideKeyboard();
         String strInputTotal = inputBill.getText().toString().trim();
         if (!strInputTotal.isEmpty()) {
@@ -74,7 +75,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public int getTipPercentage() {
-        return DEFAULT_TIP_PRECENTAGE;
+        int tipPercentage = DEFAULT_TIP_PRECENTAGE;
+        String strInputTipPercentage = inputPercentage.getText().toString().trim();
+        if (!strInputTipPercentage.isEmpty()) {
+            tipPercentage = Integer.parseInt(strInputTipPercentage);
+        } else {
+            inputPercentage.setText(String.valueOf(DEFAULT_TIP_PRECENTAGE));
+        }
+        return tipPercentage;
+    }
+
+    @OnClick(R.id.btnIncrease)
+    public void handleClickIncrease() {
+        hideKeyboard();
+        handleTipChange(TIP_STEP_CHANGE);
+    }
+
+    @OnClick(R.id.btnDecrease)
+    public void handleClickDecrease() {
+        hideKeyboard();
+        handleTipChange(-TIP_STEP_CHANGE);
+    }
+
+    private void handleTipChange(int change) {
+        int tipPercentage = getTipPercentage();
+        tipPercentage += change;
+        if (tipPercentage > 0) {
+            inputPercentage.setText(String.valueOf(tipPercentage));
+        }
     }
 
     private void hideKeyboard() {
