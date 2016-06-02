@@ -1,4 +1,4 @@
-package com.reverso.seba.tipcalc;
+package com.reverso.seba.tipcalc.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +14,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.reverso.seba.tipcalc.R;
+import com.reverso.seba.tipcalc.TipCalcApp;
+import com.reverso.seba.tipcalc.fragments.TipHistoryListFragment;
+import com.reverso.seba.tipcalc.fragments.TipHistoryListFragmentListener;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -35,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.txtTip)
     TextView txtTip;
 
+    private TipHistoryListFragmentListener fragmentListener;
+
     private final static int TIP_STEP_CHANGE = 1;
     private final static int DEFAULT_TIP_PRECENTAGE = 10;
 
@@ -43,6 +50,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        TipHistoryListFragment fragment = (TipHistoryListFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentList);
+        fragment.setRetainInstance(true);
+        fragmentListener = (TipHistoryListFragmentListener) fragment;
     }
 
     @Override
@@ -69,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
             double tip =total * (tipPercentage / 100d);
 
             String strTip = String.format(getString(R.string.global_message_tip), tip);
+            fragmentListener.acction(strTip);
             txtTip.setVisibility(View.VISIBLE);
             txtTip.setText(strTip);
         }
