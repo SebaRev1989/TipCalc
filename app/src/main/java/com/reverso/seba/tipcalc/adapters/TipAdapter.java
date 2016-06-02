@@ -58,7 +58,7 @@ public class TipAdapter extends RecyclerView.Adapter<TipAdapter.ViewHolder> {
 
     public void add(TipRecord record) {
         dataset.add(0, record);
-        notifyDataSetChanged();;
+        notifyDataSetChanged();
     }
 
     public void clear() {
