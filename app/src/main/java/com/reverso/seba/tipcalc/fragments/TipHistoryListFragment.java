@@ -1,6 +1,7 @@
 package com.reverso.seba.tipcalc.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.reverso.seba.tipcalc.R;
+import com.reverso.seba.tipcalc.activities.TipDetailActivity;
 import com.reverso.seba.tipcalc.adapters.OnItemClickListener;
 import com.reverso.seba.tipcalc.adapters.TipAdapter;
 import com.reverso.seba.tipcalc.models.TipRecord;
@@ -68,6 +70,10 @@ public class TipHistoryListFragment extends Fragment implements TipHistoryListFr
 
     @Override
     public void onItemClick(TipRecord tipRecord) {
-        Toast.makeText(getActivity(), tipRecord.getDateFormatted(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getActivity(), TipDetailActivity.class);
+        intent.putExtra(TipDetailActivity.TIP_KEY, tipRecord.getTip());
+        intent.putExtra(TipDetailActivity.BILL_TOTAL_KEY, tipRecord.getBill());
+        intent.putExtra(TipDetailActivity.DATE_KEY, tipRecord.getDateFormatted());
+        startActivity(intent);
     }
 }
