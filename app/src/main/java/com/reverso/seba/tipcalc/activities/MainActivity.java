@@ -19,6 +19,9 @@ import com.reverso.seba.tipcalc.R;
 import com.reverso.seba.tipcalc.TipCalcApp;
 import com.reverso.seba.tipcalc.fragments.TipHistoryListFragment;
 import com.reverso.seba.tipcalc.fragments.TipHistoryListFragmentListener;
+import com.reverso.seba.tipcalc.models.TipRecord;
+
+import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -77,10 +80,15 @@ public class MainActivity extends AppCompatActivity {
         if (!strInputTotal.isEmpty()) {
             double total = Double.parseDouble(strInputTotal);
             int tipPercentage = getTipPercentage();
-            double tip =total * (tipPercentage / 100d);
 
-            String strTip = String.format(getString(R.string.global_message_tip), tip);
-            fragmentListener.acction(strTip);
+            TipRecord tipRecord = new TipRecord();
+            tipRecord.setBill(total);
+            tipRecord.setTipPercentage(tipPercentage);
+            tipRecord.setTimestamp(new Date());
+
+
+            String strTip = String.format(getString(R.string.global_message_tip), tipRecord.getTip());
+            fragmentListener.addToList(tipRecord);
             txtTip.setVisibility(View.VISIBLE);
             txtTip.setText(strTip);
         }
